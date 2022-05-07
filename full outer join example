@@ -1,0 +1,8 @@
+SELECT
+    count(case when t1.permalink is not null and t2.company_permalink is not null then 1 else null end) as common,
+    count(case when t1.permalink is null and t2.company_permalink is not null then 1 else null end) as in_t2_not_t1,
+    count(case when t1.permalink is not null and t2.company_permalink is null then 1 else null end) as in_t1_not_t2
+from 
+    tutorial.crunchbase_investments_part1 t2 full join tutorial.crunchbase_companies t1
+    on 
+      t1.permalink = t2.company_permalink
