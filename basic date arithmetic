@@ -1,0 +1,9 @@
+SELECT companies.permalink,
+       companies.founded_at_clean,
+       acquisitions.acquired_at_cleaned,
+       acquisitions.acquired_at_cleaned -
+         companies.founded_at_clean::timestamp AS time_to_acquisition
+  FROM tutorial.crunchbase_companies_clean_date companies
+  JOIN tutorial.crunchbase_acquisitions_clean_date acquisitions
+    ON acquisitions.company_permalink = companies.permalink
+ WHERE founded_at_clean IS NOT NULL
