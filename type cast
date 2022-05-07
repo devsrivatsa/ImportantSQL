@@ -1,0 +1,4 @@
+select 
+  cast(funding_total_usd as integer),
+  cast(founded_at_clean as date)
+from tutorial.crunchbase_companies_clean_date
