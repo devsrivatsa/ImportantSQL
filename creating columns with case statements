@@ -1,0 +1,49 @@
+Data:
+
++-----------+----------+--------------------+---------------+-----+
+|sales_month|naics_code|    kind_of_business|reason_for_null|sales|
++-----------+----------+--------------------+---------------+-----+
+| 1992-01-01|       441|Motor vehicle and...|           null|29811|
+| 1992-01-01|      4411|  Automobile dealers|           null|25800|
+| 1992-01-01|4411, 4412|Automobile and ot...|           null|26788|
+| 1992-01-01|     44111|     New car dealers|           null|24056|
+| 1992-01-01|     44112|    Used car dealers|           null| 1744|
+| 1992-01-01|      4413|Automotive parts,...|           null| 3023|
+| 1992-01-01|       442|Furniture and hom...|           null| 3846|
+| 1992-01-01|  442, 443|Furniture, home f...|           null| 7503|
+| 1992-01-01|      4421|    Furniture stores|           null| 2392|
+| 1992-01-01|      4422|Home furnishings ...|           null| 1454|
+| 1992-01-01|     44221|Floor covering st...|           null|  728|
+| 1992-01-01|    442299|All other home fu...|  Not Available| null|
+| 1992-01-01|       443|Electronics and a...|           null| 3657|
+| 1992-01-01|    443141|Household applian...|           null|  601|
+| 1992-01-01|    443142|  Electronics stores|  Not Available| null|
+| 1992-01-01|       444|Building mat. and...|           null| 8964|
+| 1992-01-01|      4441|Building mat. and...|           null| 7637|
+| 1992-01-01|     44412|Paint and wallpap...|  Not Available| null|
+| 1992-01-01|     44413|     Hardware stores|           null|  842|
+| 1992-01-01|       445|Food and beverage...|           null|29589|
++-----------+----------+--------------------+---------------+-----+
+
+
+-- creating columns with case statements with categories from a single column for specific categories
+
+select
+    date_part('year', sales_month) as year,
+    sum(case when kind_of_business = 'Department stores' then sales end) as dept_stores,
+    sum(case when kind_of_business = 'Clothing stores' then sales end) as clothing_stores,
+    sum(case when kind_of_business = 'Jewelry stores' then sales end) as jewelry_stores
+from retail_sales_us
+where kind_of_business in ('Department stores', 'Clothing stores', 'Jewelry stores')
+group by 1
+
++----+-----------+---------------+--------------+
+|year|dept_stores|clothing_stores|jewelry_stores|
++----+-----------+---------------+--------------+
+|2003|     214470|         128361|         25493|
+|2007|     209392|         161622|         30820|
+|2018|     141578|         194723|         32370|
+|2015|     164031|         187149|         31461|
+|2006|     213155|         154546|         30103|
++----+-----------+---------------+--------------+
+
